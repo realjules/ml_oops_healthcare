@@ -1,1 +1,56 @@
-# ml_oops_healthcare
+# ML-OOPS Healthcare
+
+An integrated healthcare system for pneumonia detection that combines deep learning-based chest X-ray analysis with clinical data to provide comprehensive medical assessments.
+
+## Overview
+
+This system uses state-of-the-art machine learning techniques to analyze chest X-ray images for pneumonia detection while incorporating patient clinical data for more accurate diagnoses. It features both production and uncertainty models to provide confidence levels in predictions.
+
+## Features
+
+- Deep learning-based chest X-ray analysis using DenseNet121
+- Uncertainty quantification for predictions
+- Integration of clinical data with image analysis
+- Risk level assessment and clinical recommendations
+- Interactive web interface using Chainlit
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/realjules/ml_oops_healthcare.git
+cd ml_oops_healthcare
+```
+
+2. Install the required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+
+The system can be used through the web interface powered by Chainlit. To start the server:
+
+```bash
+chainlit run app.py
+```
+
+## Project Structure
+
+- `app.py` - Web interface implementation using Chainlit
+- `model.py` - Core ML model implementation and integrated analysis system
+- `cmu_dash.py` - Dashboard implementation
+- `demo_dataset/` - Sample dataset for testing
+- `test/` - Test files and utilities
+
+## Technical Details
+
+The system uses a DenseNet121 architecture modified for grayscale image input, with two main components:
+1. A production model for primary predictions
+2. An uncertainty model that provides confidence metrics through multiple forward passes
+
+The system combines these predictions with patient clinical data to generate:
+- Pneumonia probability scores
+- Uncertainty measurements
+- Risk level assessments
+- Clinical recommendations
