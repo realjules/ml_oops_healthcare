@@ -47,10 +47,15 @@ chainlit run app.py
 
 The system uses a DenseNet121 architecture modified for grayscale image input, with two main components:
 1. A production model for primary predictions
-2. An uncertainty model that provides confidence metrics through multiple forward passes
+2. An uncertainty model using Monte Carlo Dropout for Bayesian uncertainty estimation:
+   - Performs 30 forward passes with dropout enabled during inference
+   - Calculates prediction variance and confidence intervals
+   - Uses 30% dropout rate for robust uncertainty sampling
 
 The system combines these predictions with patient clinical data to generate:
 - Pneumonia probability scores
-- Uncertainty measurements
+- Uncertainty measurements (standard deviation and confidence intervals)
 - Risk level assessments
 - Clinical recommendations
+
+The Monte Carlo Dropout approach allows the model to estimate its own uncertainty, which is crucial for medical applications where knowing the confidence level of predictions can impact clinical decision-making.
