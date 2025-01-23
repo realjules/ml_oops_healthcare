@@ -1,61 +1,143 @@
-# ML-OOPS Healthcare
+# ML-OOPS Healthcare Platform
 
-An integrated healthcare system for pneumonia detection that combines deep learning-based chest X-ray analysis with clinical data to provide comprehensive medical assessments.
-
-## Overview
-
-This system uses state-of-the-art machine learning techniques to analyze chest X-ray images for pneumonia detection while incorporating patient clinical data for more accurate diagnoses. It features both production and uncertainty models to provide confidence levels in predictions.
-
-## Features
-
-- Deep learning-based chest X-ray analysis using DenseNet121
-- Uncertainty quantification for predictions
-- Integration of clinical data with image analysis
-- Risk level assessment and clinical recommendations
-- Interactive web interface using Chainlit
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/realjules/ml_oops_healthcare.git
-cd ml_oops_healthcare
-```
-
-2. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-## Usage
-
-The system can be used through the web interface powered by Chainlit. To start the server:
-
-```bash
-chainlit run app.py
-```
+A scalable platform for monitoring and ensuring safety in medical imaging AI models.
 
 ## Project Structure
 
-- `app.py` - Web interface implementation using Chainlit
-- `model.py` - Core ML model implementation and integrated analysis system
-- `cmu_dash.py` - Dashboard implementation
-- `demo_dataset/` - Sample dataset for testing
-- `test/` - Test files and utilities
+```
+ml_oops_healthcare/
+├── services/                  # Microservices
+│   ├── ml-api/               # Main ML API service
+│   │   ├── src/
+│   │   │   ├── api/         # API endpoints
+│   │   │   ├── storage/     # Database models
+│   │   │   └── model.py     # ML model implementation
+│   │   └── requirements.txt
+│   ├── monitoring-api/       # Monitoring service
+│   │   ├── src/
+│   │   │   └── monitoring/  # Monitoring implementation
+│   │   └── requirements.txt
+│   ├── frontend/            # React frontend
+│   │   ├── src/
+│   │   │   ├── components/  # Reusable components
+│   │   │   ├── pages/      # Page components
+│   │   │   └── contexts/   # React contexts
+│   │   └── package.json
+│   └── model-training/      # Model training service
+│
+├── infrastructure/          # Infrastructure as Code
+│   ├── kubernetes/         # K8s configurations
+│   ├── terraform/          # Infrastructure provisioning
+│   ├── monitoring/         # Monitoring configs
+│   │   ├── grafana/       # Grafana dashboards
+│   │   └── prometheus.yml # Prometheus config
+│   └── docker/            # Docker configurations
+│       ├── ml-api.Dockerfile
+│       └── docker-compose.yml
+│
+├── docs/                   # Documentation
+│   ├── architecture/      # Architecture docs
+│   ├── api/              # API documentation
+│   └── deployment/       # Deployment guides
+│
+├── scripts/              # Utility scripts
+│   ├── deployment/      # Deployment scripts
+│   └── data-processing/ # Data processing scripts
+│
+├── tests/               # Test suites
+│   ├── unit/           # Unit tests
+│   ├── integration/    # Integration tests
+│   └── e2e/           # End-to-end tests
+│
+└── archive/            # Archived files
+```
 
-## Technical Details
+## Services
 
-The system uses a DenseNet121 architecture modified for grayscale image input, with two main components:
-1. A production model for primary predictions
-2. An uncertainty model using Monte Carlo Dropout for Bayesian uncertainty estimation:
-   - Performs 30 forward passes with dropout enabled during inference
-   - Calculates prediction variance and confidence intervals
-   - Uses 30% dropout rate for robust uncertainty sampling
+1. ML API Service
+- Main service for ML model inference
+- Handles model versioning and deployment
+- Provides REST API for predictions
 
-The system combines these predictions with patient clinical data to generate:
-- Pneumonia probability scores
-- Uncertainty measurements (standard deviation and confidence intervals)
-- Risk level assessments
-- Clinical recommendations
+2. Monitoring API
+- Collects model performance metrics
+- Handles audit logging
+- Provides monitoring endpoints
 
-The Monte Carlo Dropout approach allows the model to estimate its own uncertainty, which is crucial for medical applications where knowing the confidence level of predictions can impact clinical decision-making.
+3. Frontend Service
+- React-based dashboard
+- Role-based access control
+- Real-time monitoring UI
+
+4. Model Training Service (TODO)
+- Handles model training pipelines
+- Manages training data
+- Performs model validation
+
+## Getting Started
+
+### Development Setup
+
+1. Start the development environment:
+```bash
+cd infrastructure/docker
+docker-compose up -d
+```
+
+2. Run the frontend:
+```bash
+cd services/frontend
+npm install
+npm run dev
+```
+
+3. Access the services:
+- Frontend: http://localhost:50711
+- ML API: http://localhost:57763
+- Grafana: http://localhost:3000
+
+### Production Deployment
+
+See [deployment documentation](docs/deployment/README.md) for production setup.
+
+## Additional Repositories Needed
+
+1. **ml-oops-model-registry**
+- Purpose: Model versioning and artifact storage
+- Key features:
+  * Model versioning
+  * Artifact storage
+  * Model metadata
+  * A/B testing support
+
+2. **ml-oops-data-pipeline**
+- Purpose: Data processing and training pipelines
+- Key features:
+  * Data validation
+  * Feature engineering
+  * Training pipelines
+  * Data versioning
+
+3. **ml-oops-compliance**
+- Purpose: Compliance and audit management
+- Key features:
+  * HIPAA compliance checks
+  * Audit trail management
+  * Policy enforcement
+  * Compliance reporting
+
+4. **ml-oops-infrastructure**
+- Purpose: Infrastructure as Code
+- Key features:
+  * Terraform modules
+  * Kubernetes configurations
+  * CI/CD pipelines
+  * Security configurations
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
